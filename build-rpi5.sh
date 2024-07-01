@@ -30,10 +30,28 @@ add_bitbake_layer "meta-networking" "../meta-openembedded/meta-networking"
 add_bitbake_layer "meta-filesystems" "../meta-openembedded/meta-filesystems"
 add_bitbake_layer "meta-virtualization" "../meta-virtualization"
 add_bitbake_layer "meta-raspberrypi" "../meta-raspberrypi"
+add_bitbake_layer "meta-custom" "../meta-custom"
 
 # add custom configurations
 CONF_MACHINE="MACHINE = \"raspberrypi5\""
 CONF_LICENSE_FLAGS_ACCEPTED="LICENSE_FLAGS_ACCEPTED = \"synaptics-killswitch\""
+
+CONF_IMAGE_INSTALL_append="IMAGE_INSTALL:append = \" spdlog-dev docker docker-compose ca-certificates\
+ linux-firmware-rpidistro-bcm43430 wireless-regdb-static openssh v4l-utils\
+ python3 ntp wpa-supplicant iw vcan0 can-utils ifup-wlan0\""
+
+# Enable systemd as the init manager
+CONF_DISTRO_FEATURES_append="DISTRO_FEATURES:append = \" systemd usrmerge virtualization wifi\""
+CONF_VIRTUAL_RUNTIME_init_manager="VIRTUAL-RUNTIME_init_manager = \"systemd\""
+CONF_VIRTUAL_RUNTIME_initscripts="VIRTUAL-RUNTIME_initscripts = \"systemd-compat-units\""
+CONF_CORE_IMAGE_EXTRA_INSTALL="CORE_IMAGE_EXTRA_INSTALL += \" kernel-modules\""
+
+# Optionally, disable SysVinit
+CONF_DISTRO_FEATURES_BACKFILL_CONSIDERED="DISTRO_FEATURES_BACKFILL_CONSIDERED = \"sysvinit\""
+CONF_DISTRO_FEATURES_REMOVE="DISTRO_FEATURES_REMOVE = \"sysvinit\""
+# need ssh
+CONF_IMAGE_FEATURES="IMAGE_FEATURES += \"ssh-server-openssh\""
+CONF_WIRELESS_REGDOM="WIRELESS_REGDOM = \"US\""
 
 # add features to local.conf
 append_to_local_conf() {
@@ -51,6 +69,15 @@ append_to_local_conf() {
 
 append_to_local_conf "${CONF_MACHINE}"
 append_to_local_conf "${CONF_LICENSE_FLAGS_ACCEPTED}"
+append_to_local_conf "${CONF_IMAGE_INSTALL_append}"
+append_to_local_conf "${CONF_DISTRO_FEATURES_append}"
+append_to_local_conf "${CONF_VIRTUAL_RUNTIME_init_manager}"
+append_to_local_conf "${CONF_VIRTUAL_RUNTIME_initscripts}"
+append_to_local_conf "${CONF_CORE_IMAGE_EXTRA_INSTALL}"
+append_to_local_conf "${CONF_DISTRO_FEATURES_BACKFILL_CONSIDERED}"
+append_to_local_conf "${CONF_DISTRO_FEATURES_REMOVE}"
+append_to_local_conf "${CONF_IMAGE_FEATURES}"
+append_to_local_conf "${CONF_WIRELESS_REGDOM}"
 
-# set -e
-# bitbake core-image-base
+set -e
+bitbake core-image-base

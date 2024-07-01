@@ -1,0 +1,11 @@
+[Unit]
+Description=Bring up wlan0 at boot
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/ifup wlan0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

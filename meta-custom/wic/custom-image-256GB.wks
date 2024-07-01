@@ -1,0 +1,11 @@
+# short-description: Create a boot, rootfs, and data partitions for a 256GB SD card
+# long-description: Creates an SD card image with three partitions. The first partition is the boot partition, the second partition is the root filesystem, and the third partition is a data partition.
+
+# Boot partition (256 MB)
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --align 4 --size 256
+
+# Root filesystem partition (2 GB)
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs --align 4 --size 2048
+
+# Data partition (2 GB)
+part /data --source rootfs --ondisk mmcblk0 --fstype=ext4 --label data --align 4 --size 2048
