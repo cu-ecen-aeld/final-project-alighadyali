@@ -38,7 +38,7 @@ CONF_LICENSE_FLAGS_ACCEPTED="LICENSE_FLAGS_ACCEPTED = \"synaptics-killswitch\""
 
 CONF_IMAGE_INSTALL_append="IMAGE_INSTALL:append = \" spdlog-dev docker docker-compose ca-certificates\
  linux-firmware-rpidistro-bcm43430 wireless-regdb-static openssh v4l-utils\
- python3 ntp wpa-supplicant iw vcan0 can-utils ifup-wlan0\""
+ python3 ntp wpa-supplicant iw vcan0 can-utils cansim ifup-wlan0\""
 
 # Enable systemd as the init manager
 CONF_DISTRO_FEATURES_append="DISTRO_FEATURES:append = \" systemd usrmerge virtualization wifi\""

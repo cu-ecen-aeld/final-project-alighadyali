@@ -1,0 +1,12 @@
+[Unit]
+Description=Can simulator using vcan
+After=vcan0.service
+Requires=vcan0.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cansim
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

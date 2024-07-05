@@ -1,0 +1,14 @@
+[Unit]
+Description=Docker Container Application Service
+Requires=docker.service
+After=docker.service
+
+[Service]
+ExecStart=/usr/bin/docker run --network host --name cansim-mqtt alighadyali/confabulator:0.0.1-arm64v8
+ExecStop=/usr/bin/docker stop -t 2 cansim-mqtt
+ExecStopPost=/usr/bin/docker rm -f cansim-mqtt
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
