@@ -52,6 +52,7 @@ CONF_DISTRO_FEATURES_REMOVE="DISTRO_FEATURES_REMOVE = \"sysvinit\""
 # need ssh
 CONF_IMAGE_FEATURES="IMAGE_FEATURES += \"ssh-server-openssh\""
 CONF_WIRELESS_REGDOM="WIRELESS_REGDOM = \"US\""
+CONF_WKS_FILE="WKS_FILE = \"custom-image-256GB.wks\""
 
 # add features to local.conf
 append_to_local_conf() {
@@ -78,6 +79,7 @@ append_to_local_conf "${CONF_DISTRO_FEATURES_BACKFILL_CONSIDERED}"
 append_to_local_conf "${CONF_DISTRO_FEATURES_REMOVE}"
 append_to_local_conf "${CONF_IMAGE_FEATURES}"
 append_to_local_conf "${CONF_WIRELESS_REGDOM}"
+append_to_local_conf "${CONF_WKS_FILE}"
 
 set -e
 bitbake core-image-base
